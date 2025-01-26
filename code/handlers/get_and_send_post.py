@@ -11,7 +11,7 @@ from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKe
 router = Router()
 file_json = "tags.json"
 
-
+#Отправка работает только с видео. Под остальное нужно дописать в методах ниже
 @router.message(F.media_group_id)
 async def message_with_media(message: Message, state: FSMContext):
     await message.answer("Это пост с многими медиа воедино", reply_markup=None)
@@ -78,6 +78,7 @@ async def send_post(message: Message, state: FSMContext, bot: Bot):
         await message.answer(f"Тег с id = {message.text} не найден. Введите его еще раз")
         await state.set_state(UserStates.waiting_for_send)
 
+#Доделать, чтобы при нажатии на "Да" не выскакивало ошибки. Целый блок еще не готов
 @router.callback_query(UserStates.waiting_for_confirmation)
 async def handle_confirmation(callback: CallbackQuery, state: FSMContext, bot: Bot):
     data = await state.get_data()
